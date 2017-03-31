@@ -6,8 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 
 
-//import { NativeStorage } from 'ionic-native';
-import { NativeStorage } from '@ionic-native/native-storage';
+import { NativeStorage } from 'ionic-native';
+//import { NativeStorage } from '@ionic-native/native-storage';
 
 
 
@@ -27,7 +27,8 @@ export class MyApp {
     platform.ready().then(() => {
      
       let env = this;
-      this.ns.getItem('user')
+      //this.ns.getItem('user')
+      NativeStorage.getItem('user')
         .then(function (data) {
           // user is previously logged and we have his data
           // we will let him access the app

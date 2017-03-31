@@ -14,9 +14,10 @@ import {DirectiveUser} from '../directives/dirUser';
 //Ventanas
 import {Principal} from '../pages/principal/principal';
 //Facebook
-//import { Facebook, NativeStorage } from 'ionic-native';
-import { NativeStorage } from '@ionic-native/native-storage';
-import { Facebook } from '@ionic-native/facebook';
+import { Facebook, NativeStorage } from 'ionic-native';
+//import { NativeStorage } from '@ionic-native/native-storage';
+//import { Facebook } from '@ionic-native/facebook';
+
 //Clave Hash
 //ga0RGNYHvNM5d0SLGQfpQWAPGJ8=
 import { FriendPage } from '../pages/friendPage/friendPage';

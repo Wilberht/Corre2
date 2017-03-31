@@ -1,14 +1,14 @@
 <form [formGroup]="myForm">
     <ion-list>
-        <ion-item color="danger">
-            <ion-label>Register</ion-label>
-            <ion-toggle formControlName="toggleRegister"></ion-toggle>
+        <ion-item color="amarillo">
+            <ion-label>Registrarse</ion-label>
+            <ion-toggle formControlName="toggleRegister" color='verde'></ion-toggle>
         </ion-item>
 
 
-        <ion-card *ngIf="!myForm.get('toggleRegister').value">
+        <ion-card *ngIf="!myForm.get('toggleRegister').value" >
             <ion-card-header>
-                Login
+                Iniciar sesión
             </ion-card-header>
             <ion-card-content>
                 <ion-list>
@@ -18,66 +18,81 @@
                         </ion-label>
                         <ion-input type="email" formControlName="email" [inputEmail]="nothing"></ion-input>
                     </ion-item>
-                    <p *ngIf="emailBoolean" color="danger">Invalid email or Empty</p>
+                    <p *ngIf="emailBoolean" color="danger">¡Email invalido o vacio!</p>
                     <ion-item>
                         <ion-label floating>Password</ion-label>
                         <ion-input type="password" formControlName="password" [inputPassword]="nothing"></ion-input>
                     </ion-item>
-                    <p *ngIf="passwordBoolean" color="danger">Invalid password or Empty</p>
-                    <button ion-button full (click)="check(1)">
+                    <p *ngIf="passwordBoolean" color="danger">¡Contraseña invalida o vacia!</p>
+                    <button ion-button full (click)="check(1)" color='amarillo'>
                         <ion-label>
-                            Agree
+                            Iniciar sesión
                         </ion-label>
                     </button>                    
                 </ion-list>
+            </ion-card-content>
+
+            <ion-card-content>
+                 <button ion-button full (click)="doFbLogin()">
+                        <ion-label>
+                            Iniciar con Facebook
+                        </ion-label>
+                    </button>    
             </ion-card-content>
         </ion-card>
 
         <ion-card *ngIf="myForm.get('toggleRegister').value">
             <ion-card-header>
-                Register
+                Registrarse
             </ion-card-header>
             <ion-card-content>
                 <ion-list>
                     <ion-item>
                         <ion-label floating>
-                            User
+                            Usuario
                         </ion-label>
                         <ion-input type="text" formControlName="userRegister" [inputUser]="nothing"></ion-input>
                     </ion-item>
-                    <p *ngIf="userRegisterBoolean" color="danger">Invalid User or Empty</p>
+                    <p *ngIf="userRegisterBoolean" color="danger">¡Usuario invalido o vacio!</p>
                     <ion-item>
                         <ion-label floating>
                             Email
                         </ion-label>
                         <ion-input type="email" formControlName="emailRegister" [inputEmail]="nothing"></ion-input>
                     </ion-item>
-                    <p *ngIf="emailRegiserBoolean" color="danger">Invalid email or Empty</p>
+                    <p *ngIf="emailRegiserBoolean" color="danger">¡Email invalido o vacio!</p>
                     <ion-item>
                         <ion-label floating>
-                            Password
+                            Contraseña
                         </ion-label>
                         <ion-input type="password" formControlName="passwordRegister" [inputPassword]="nothing"></ion-input>
                     </ion-item>
-                    <p *ngIf="passwordRegisterBoolean" color="danger">Invalid password or Empty</p>
+                    <p *ngIf="passwordRegisterBoolean" color="danger">¡Contraseña invalida o vacia!</p>
                     <ion-item>
                         <ion-label floating>
-                            Password Verification
+                            Verifica tu contraseña
                         </ion-label>
                         <ion-input type="password" formControlName="passwordVeriRegister" [inputPassword]="nothing"></ion-input>
                     </ion-item>
-                    <p *ngIf="passwordVeriRegiserBoolean" color="danger">Invalid password or Empty</p>
-                    <button full ion-button (click)="check(2)">
+                    <p *ngIf="passwordVeriRegiserBoolean" color="danger">¡Contraseña invalida o vacia!</p>
+                        
+                </ion-list>
+            </ion-card-content>
+
+            <ion-card-content>
+                <button full ion-button (click)="check(2)" color='amarillo'>
                         <ion-label>
-                            Agree
+                            Registrarme
                         </ion-label>
                     </button>  
-                    <button ion-button full (click)="doFbLogin()">
+            </ion-card-content>
+
+            <ion-card-content>
+                 <button ion-button full (click)="doFbLogin()">
                         <ion-label>
-                            Facebook
+                            Registrarme con Facebook
                         </ion-label>
-                    </button>                  
-                </ion-list>
+                    </button>    
             </ion-card-content>
         </ion-card>
     </ion-list>

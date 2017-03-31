@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController ,  LoadingController} from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Principal } from '../pages/principal/principal';
 
-//import { Facebook, NativeStorage } from 'ionic-native';
-import { NativeStorage } from '@ionic-native/native-storage';
-import { Facebook } from '@ionic-native/facebook';
+import { Facebook, NativeStorage } from 'ionic-native';
+
+//import { NativeStorage } from '@ionic-native/native-storage';
+//import { Facebook } from '@ionic-native/facebook';
 
 @Component({
     selector: 'my-component',
@@ -38,7 +39,7 @@ export class MyComponent {
     //Facebook
     FB_APP_ID: number = 1253462168103087;
 
-    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController, public ns: NativeStorage, public f: Facebook) {
+    constructor(public navCtrl: NavController, public formBuilder: FormBuilder, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
         this.myForm = this.formBuilder.group({
             toggleRegister: [false, Validators.compose([Validators.required])],
             email: ["", [Validators.required, Validators.pattern(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/)]],
@@ -48,7 +49,8 @@ export class MyComponent {
             passwordRegister: ["", [Validators.required]],
             passwordVeriRegister: ["", [Validators.required]]
         });
-        this.f.browserInit(this.FB_APP_ID, "v2.8");
+        //this.f.browserInit(this.FB_APP_ID, "v2.8");
+        Facebook.browserInit(this.FB_APP_ID, "v2.8");
         this.myForm.get('email').setValue("root@root.com");
         this.myForm.get('password').setValue("root");
 
@@ -62,24 +64,34 @@ export class MyComponent {
         permissions = ["public_profile"];
 
 
-        this.f.login(permissions)
+        //this.f.login(permissions)
+        Facebook.login(permissions)
             .then(function (response) {
                 let userId = response.authResponse.userID;
                 let params = new Array();
-
+                let loading = this.loadingCtrl.create({
+                                content: 'SI LLEGA1'
+                                });
+                                loading.present();
                 //Getting name and gender properties
-                this.f.api("/me?fields=name,gender", params)
+                //this.f.api("/me?fields=name,gender", params)
+                Facebook.api("/me?fields=name,gender", params)
                     .then(function (user) {
                         user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
                         //now we have the users info, let's save it in the NativeStorage
-                        this.ns.setItem('user',
+                        NativeStorage.setItem('user',
                             {
                                 name: user.name,
                                 gender: user.gender,
                                 picture: user.picture
                             })
                             .then(function () {
-                                nav.push(Principal);
+                                 console.log("Si llegó :'()");
+                                let loading = this.loadingCtrl.create({
+                                content: 'SI LLEGA'
+                                });
+                                loading.present();
+                                this.navCtrl.push(Principal);
                             }, function (error) {
                                 let alert10 = this.alertCtrl.create({
                                     title: "Error:",
@@ -87,6 +99,7 @@ export class MyComponent {
                                     buttons: ['OK']
                                 });
                                 alert10.present();
+                                console.log(error);
                             })
                     })
             }, function (error) {
@@ -96,6 +109,7 @@ export class MyComponent {
                     buttons: ['OK']
                 });
                 alert11.present();
+                console.log(error);
             });
     }
 
@@ -129,8 +143,8 @@ export class MyComponent {
                 }
                 else { //En casi de los campos estan bien pero los datos mal.
                     let alert4 = this.alertCtrl.create({
-                        title: "Fail",
-                        subTitle: "Incorrect user or password",
+                        title: "Error",
+                        subTitle: "¡Contraseña de usuario incorrecta!",
                         buttons: ['OK']
                     });
                     alert4.present();
@@ -163,8 +177,8 @@ export class MyComponent {
                 //en caos que todo sea correcto, mostrara el mensaje que se registro correctamente
                 if (this.myForm.get('passwordRegister').value == this.myForm.get('passwordVeriRegister').value) {
                     let alert3 = this.alertCtrl.create({
-                        title: "Congratulation:",
-                        subTitle: "User register",
+                        title: "Éxitoso",
+                        subTitle: "Usuario registrado",
                         buttons: ['OK']
                     });
                     alert3.present();
@@ -172,8 +186,8 @@ export class MyComponent {
                     this.myForm.get('toggleRegister').setValue(false);
                 } else {//En caso que todos los campos esten bien, pero las contraseñas no coincidan.
                     let alert5 = this.alertCtrl.create({
-                        title: "Error:",
-                        subTitle: "Incorrect passwords",
+                        title: "Error",
+                        subTitle: "Contraseña incorrecta",
                         buttons: ['OK']
                     });
                     alert5.present();
