@@ -58,23 +58,18 @@ export class MyComponent {
 
 
     doFbLogin() {
-        let permissions = new Array();
+        let permissions = new Array<string>();
         let nav = this.navCtrl;
         //the permissions your facebook app needs from the user
         permissions = ["public_profile"];
 
 
-        //this.f.login(permissions)
         Facebook.login(permissions)
             .then(function (response) {
                 let userId = response.authResponse.userID;
-                let params = new Array();
-                let loading = this.loadingCtrl.create({
-                                content: 'SI LLEGA1'
-                                });
-                                loading.present();
+                let params = new Array<string>();
+
                 //Getting name and gender properties
-                //this.f.api("/me?fields=name,gender", params)
                 Facebook.api("/me?fields=name,gender", params)
                     .then(function (user) {
                         user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
@@ -86,29 +81,12 @@ export class MyComponent {
                                 picture: user.picture
                             })
                             .then(function () {
-                                 console.log("Si llegó :'()");
-                                let loading = this.loadingCtrl.create({
-                                content: 'SI LLEGA'
-                                });
-                                loading.present();
-                                this.navCtrl.push(Principal);
+                                nav.push(Principal);
                             }, function (error) {
-                                let alert10 = this.alertCtrl.create({
-                                    title: "Error:",
-                                    subTitle: "Incorrect passwords",
-                                    buttons: ['OK']
-                                });
-                                alert10.present();
                                 console.log(error);
                             })
                     })
             }, function (error) {
-                let alert11 = this.alertCtrl.create({
-                    title: "Error:",
-                    subTitle: "Incorrect passwords",
-                    buttons: ['OK']
-                });
-                alert11.present();
                 console.log(error);
             });
     }

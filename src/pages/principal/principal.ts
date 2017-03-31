@@ -42,6 +42,7 @@ export class Principal {
             { title: 'Cerrar sesión', component: LoginPage }
         ];
     }
+    
     ionViewCanEnter() {
         let env = this;
         //this.ns.getItem('user')
